@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tasks:
+    - yum:
+        name:  "{{ item }}"
+        state: "present"
+      with_items:
+        - "python2-pip"
+        - "git"
+    - pip:
+        name: "{{ item }}"
+      with_items:
+        - "git+https://github.com/illallangi/autotorrent.git"

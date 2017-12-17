@@ -1,0 +1,17 @@
+[general]
+db = _autotorrent.db
+ignore_files =
+store_path = {{ ansible_env.AUTOTORRENT_COMPLETE_PATH }}
+add_limit_size = 64000000
+add_limit_percent = 1
+link_type = soft
+scan_mode = unsplitable,normal
+
+[disks]
+disk1 = {{ ansible_env.AUTOTORRENT_DISK_PATH }}
+
+[client]
+client = deluge
+host = {{ ansible_env.AUTOTORRENT_CLIENT_HOSTNAME }}:{{ ansible_env.AUTOTORRENT_CLIENT_PORT }}
+username = {{ ansible_env.AUTOTORRENT_CLIENT_USERNAME }}
+password = {{ ansible_env.AUTOTORRENT_CLIENT_PASSWORD }}

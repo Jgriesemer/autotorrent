@@ -1,0 +1,38 @@
+---
+- hosts: all
+  tasks:
+    - fail:
+        msg: "{{ item }} is not defined. Typically you should run with: '-e {{ item }}=value'"
+      when:
+        - ansible_env[item] is not defined
+      with_items:
+        - "AUTOTORRENT_COMPLETE_PATH"
+        - "AUTOTORRENT_CONFIG_PATH"
+        - "AUTOTORRENT_DISK_PATH"
+        - "AUTOTORRENT_MATCH_PATH"
+        - "AUTOTORRENT_CLIENT_HOSTNAME"
+        - "AUTOTORRENT_CLIENT_PORT"
+        - "AUTOTORRENT_CLIENT_USERNAME"
+        - "AUTOTORRENT_CLIENT_PASSWORD"
+    - file:
+        path: "{{ ansible_env[item] }}"
+        state: "directory"
+        owner:  "{{ ansible_env.USER | default('docker') }}"
+        group: "{{ ansible_env.GROUP | default(ansible_env.USER | default('docker')) }}"
+      with_items:
+        - "AUTOTORRENT_COMPLETE_PATH"
+        - "AUTOTORRENT_CONFIG_PATH"
+        - "AUTOTORRENT_DISK_PATH"
+        - "AUTOTORRENT_MATCH_PATH"
+    - template:
+        src: "{{ item.name }}.j2"
+        dest: "{{ item.path }}/{{ item.name }}"
+        owner:  "{{ ansible_env.USER | default('docker') }}"
+        group: "{{ ansible_env.GROUP | default(ansible_env.USER | default('docker')) }}"
+        mode:  "{{ item.mode | default('0644') }}"
+      with_items:
+        - name: "autotorrent.conf"
+          path: "{{ ansible_env.AUTOTORRENT_CONFIG_PATH }}"
+        - name: "autotorrent-entrypoint.sh"
+          path: "/usr/local/bin"
+          mode: "0755"
