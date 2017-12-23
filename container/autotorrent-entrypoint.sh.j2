@@ -6,7 +6,9 @@ echo "Sleeping a random interval to stagger starts"
 while true
 do
   /usr/bin/autotorrent -r
-  find {{ ansible_env.AUTOTORRENT_MATCH_PATH }} -type f -name \*.torrent -print -exec /usr/bin/autotorrent -a '{}' \;
-	echo "Press [CTRL+C] to stop.."
+  #find {{ ansible_env.AUTOTORRENT_MATCH_PATH }} -type f -name \*.torrent -print -exec 
+  /usr/bin/autotorrent -a {{ ansible_env.AUTOTORRENT_MATCH_PATH }}/*.torrent
+  echo "Sleeping 60 Seconds"
+  echo "Press [CTRL+C] to stop.."
 	sleep 60
 done
