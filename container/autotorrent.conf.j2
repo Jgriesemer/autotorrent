@@ -2,10 +2,10 @@
 db = _autotorrent.db
 ignore_files =
 store_path = {{ ansible_env.AUTOTORRENT_COMPLETE_PATH }}
-add_limit_size = 64000000
-add_limit_percent = 1
-link_type = soft
-scan_mode = unsplitable,normal
+add_limit_size = {{ ansible_env.AUTOTORRENT_ADD_LIMIT_SIZE }}
+add_limit_percent =  {{ ansible_env.AUTOTORRENT_ADD_LIMIT_PERCENT }}
+link_type = {{ ansible_env.AUTOTORRENT_LINK_TYPE }}
+scan_mode = {{ ansible_env.AUTOTORRENT_SCAN_MODE }}
 
 [disks]
 disk1 = {{ ansible_env.AUTOTORRENT_DISK_PATH }}
